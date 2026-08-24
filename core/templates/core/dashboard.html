@@ -1,0 +1,132 @@
+{% extends 'base.html' %}
+{% block title %}
+    {{ title }}
+{% endblock %}
+{% block content %}
+    <div class="container-fluid">
+        <div class="row">
+            {% if request.user.role.materials > 0 %}
+                <div class="col-12 col-sm-6 col-md-2">
+                    <a href="{% url 'materials:material_list' %}"
+                       class="small-box-footer link-dark link-underline-opacity-0 link-underline-opacity-50-hover">
+                        <div class="info-box">
+                            <span class="info-box-icon text-bg-danger-2 shadow-sm">
+                                <i class="bi bi-box-seam"></i>
+                            </span>
+                            <div class="info-box-content">
+                                <span class="info-box-text">Materiales</span>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+            {% endif %}
+            {% if request.user.role.customers > 0 %}
+                <div class="col-12 col-sm-6 col-md-2">
+                    <a href="#"
+                       class="small-box-footer link-dark link-underline-opacity-0 link-underline-opacity-50-hover">
+                        <div class="info-box">
+                            <span class="info-box-icon text-bg-primary shadow-sm">
+                                <i class="bi bi-people-fill"></i>
+                            </span>
+                            <div class="info-box-content">
+                                <span class="info-box-text">Clientes</span>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+            {% endif %}
+
+            {% if request.user.role.suppliers > 0 %}
+                <div class="col-12 col-sm-6 col-md-2">
+                    <a href="{% url 'suppliers:supplier_list' %}"
+                       class="small-box-footer link-dark link-underline-opacity-0 link-underline-opacity-50-hover">
+                        <div class="info-box">
+                            <span class="info-box-icon text-bg-info shadow-sm">
+                                <i class="bi bi-truck"></i>
+                            </span>
+                            <div class="info-box-content">
+                                <span class="info-box-text">Proveedores</span>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+            {% endif %}
+            {% if request.user.role.purchases > 0 %}
+                <div class="col-12 col-sm-6 col-md-2">
+                    <a href="#"
+                       class="small-box-footer link-dark link-underline-opacity-0 link-underline-opacity-50-hover">
+                        <div class="info-box">
+                            <span class="info-box-icon text-bg-danger shadow-sm">
+                                <i class="bi bi-cart-fill"></i>
+                            </span>
+                            <div class="info-box-content">
+                                <span class="info-box-text">Compras</span>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+            {% endif %}
+            {% if request.user.role.sales > 0 %}
+                <div class="col-12 col-sm-6 col-md-2">
+                    <a href="#"
+                       class="small-box-footer link-dark link-underline-opacity-0 link-underline-opacity-50-hover">
+                        <div class="info-box">
+                            <span class="info-box-icon text-bg-success-2 shadow-sm">
+                                <i class="bi bi-bag-check-fill"></i>
+                            </span>
+                            <div class="info-box-content">
+                                <span class="info-box-text">Ventas</span>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+            {% endif %}
+            {% if request.user.role.inventory > 0 %}
+                <div class="col-12 col-sm-6 col-md-2">
+                    <a href="#"
+                       class="small-box-footer link-dark link-underline-opacity-0 link-underline-opacity-50-hover">
+                        <div class="info-box">
+                            <span class="info-box-icon text-bg-warning shadow-sm">
+                                <i class="bi bi-box-seam-fill"></i>
+                            </span>
+                            <div class="info-box-content">
+                                <span class="info-box-text">Inventario</span>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+            {% endif %}
+            {% if request.user.role.accounting > 0 %}
+                <div class="col-12 col-sm-6 col-md-2">
+                    <a href="#"
+                       class="small-box-footer link-dark link-underline-opacity-0 link-underline-opacity-50-hover">
+                        <div class="info-box">
+                            <span class="info-box-icon text-bg-success shadow-sm">
+                                <i class="bi bi-bank"></i>
+                            </span>
+                            <div class="info-box-content">
+                                <span class="info-box-text">Contabilidad</span>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+            {% endif %}
+            {% if request.user.role.reporting > 0 %}
+                <div class="col-12 col-sm-6 col-md-2">
+                    <a href="#"
+                       class="small-box-footer link-dark link-underline-opacity-0 link-underline-opacity-50-hover">
+                        <div class="info-box">
+                            <span class="info-box-icon text-bg-secondary shadow-sm" style="--bs-bg-opacity: .7;">
+                                <i class="bi bi-graph-up-arrow"></i>
+                            </span>
+                            <div class="info-box-content">
+                                <span class="info-box-text">Reportes</span>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+
+{% endblock %}

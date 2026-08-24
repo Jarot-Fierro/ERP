@@ -1,0 +1,136 @@
+{% load static %}
+<!--begin::Accessibility Features-->
+<!-- Skip links will be dynamically added by accessibility.js -->
+<meta name="supported-color-schemes" content="light dark"/>
+<link rel="preload" href="{% static 'core/css/adminlte.css' %}" as="style"/>
+<!--end::Accessibility Features-->
+
+<!--begin::Fonts-->
+<link
+        rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/@fontsource/source-sans-3@5.0.12/index.css"
+        integrity="sha256-tXJfXfp6Ewt1ilPzLDtQnJV4hclT9XuaZUKyUvmyr+Q="
+        crossorigin="anonymous"
+        media="print"
+        onload="this.media = 'all'"
+/>
+<!--end::Fonts-->
+
+<!--begin::Third Party Plugin(OverlayScrollbars)-->
+<link
+        rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/overlayscrollbars@2.11.0/styles/overlayscrollbars.min.css"
+        crossorigin="anonymous"
+/>
+<!--end::Third Party Plugin(OverlayScrollbars)-->
+
+<!--begin::Third Party Plugin(Bootstrap Icons)-->
+<link
+        rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css"
+        crossorigin="anonymous"
+/>
+<!--end::Third Party Plugin(Bootstrap Icons)-->
+
+<!--begin::Required Plugin(AdminLTE)-->
+<link rel="stylesheet" href="{% static 'core/css/adminlte.css' %}"/>
+<!--end::Required Plugin(AdminLTE)-->
+
+<!-- apexcharts -->
+<link
+        rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/apexcharts@3.37.1/dist/apexcharts.css"
+        integrity="sha256-4MX+61mt9NVvvuPjUWdUdyfZfxSB1/Rf9WtqRHgG5S0="
+        crossorigin="anonymous"
+/>
+
+<!-- jsvectormap -->
+<link
+        rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/jsvectormap@1.5.3/dist/css/jsvectormap.min.css"
+        integrity="sha256-+uGLJmmTKOqBr+2E6KDYs/NRsHxSkONXFHUL0fy2O/4="
+        crossorigin="anonymous"
+/>
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+<link rel="stylesheet" href="{% static 'core/css/style.css' %}">
+
+<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0/dist/css/select2.min.css" rel="stylesheet"/>
+<link rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/select2-bootstrap-5-theme@1.3.0/dist/select2-bootstrap-5-theme.min.css"/>
+
+<link
+        href="https://cdn.jsdelivr.net/npm/tom-select@2.4.3/dist/css/tom-select.css"
+        rel="stylesheet"
+>
+
+<style>
+    :root {
+        /* Si hay un módulo actual, usamos su color; si no, el azul por defecto */
+        --modulo-color: {% if modulo_actual %}{{ modulo_actual.color }}{% else %}#006FB3{% endif %};
+        --modulo-texto-color: {% if modulo_actual %}{{ modulo_actual.texto_color }}{% else %}#ffffff{% endif %};
+    }
+
+    /* Aplicar a elementos específicos del Header */
+    .app-header.navbar {
+        background-color: var(--modulo-color) !important;
+        color: var(--modulo-texto-color) !important;
+    }
+
+    .app-header.navbar .nav-link,
+    .app-header.navbar .navbar-nav .nav-item,
+    .app-header.navbar .bi {
+        color: var(--modulo-texto-color) !important;
+    }
+
+    /* Estilos para el Sidebar (Brand logo y active items) */
+    .app-sidebar.bg-body-green {
+        background: var(--modulo-color) !important;
+    }
+
+    .app-sidebar .sidebar-brand {
+        background-color: var(--modulo-color) !important;
+        color: var(--modulo-texto-color) !important;
+    }
+
+    .app-sidebar .sidebar-brand .brand-text,
+    .app-sidebar .sidebar-wrapper .nav-item,
+    .app-sidebar .sidebar-wrapper .nav-link,
+    .app-sidebar .sidebar-wrapper .nav-header,
+    .app-sidebar .sidebar-wrapper .bi {
+        color: var(--modulo-texto-color) !important;
+    }
+
+    /* Ajuste para el hover en el sidebar si es necesario */
+    .app-sidebar .sidebar-wrapper .nav-link:hover {
+        background-color: rgba(255, 255, 255, 0.1) !important;
+    }
+
+    /* Estilos para el Dropdown del Perfil en el Header */
+    .user-menu .dropdown-menu {
+        border: 1px solid var(--modulo-color) !important;
+    }
+
+    .user-header.text-bg-primary {
+        background-color: var(--modulo-color) !important;
+        color: var(--modulo-texto-color) !important;
+    }
+
+    /* Si quieres cambiar también el color del borde de las tarjetas */
+    .card-primary.card-outline {
+        border-top-color: var(--modulo-color) !important;
+    }
+
+    /* Botones primarios dinámicos */
+    .btn-primary {
+        background-color: var(--modulo-color) !important;
+        border-color: var(--modulo-color) !important;
+        color: var(--modulo-texto-color) !important;
+    }
+
+    .text-bg-primary {
+        background-color: var(--modulo-color) !important;
+        color: var(--modulo-texto-color) !important;
+    }
+</style>
