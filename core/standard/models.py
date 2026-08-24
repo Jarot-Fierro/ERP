@@ -1,5 +1,4 @@
 from django.db import models
-from simple_history.models import HistoricalRecords
 
 from config import settings
 
@@ -18,7 +17,7 @@ class StandardModel(models.Model):
     updated_by = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, null=True, blank=True,
                                    related_name="%(app_label)s_%(class)s_updated", verbose_name='Actualizado Por')
 
-    history = HistoricalRecords(inherit=True)
+    # history = HistoricalRecords(inherit=True)
 
     UPPERCASE_FIELDS = []
     LOWERCASE_FIELDS = []
@@ -61,7 +60,7 @@ class StandardModelEstablishment(models.Model):
     updated_by = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, null=True, blank=True,
                                    related_name="%(app_label)s_%(class)s_updated", verbose_name='Actualizado Por')
 
-    history = HistoricalRecords(inherit=True)
+    # history = HistoricalRecords(inherit=True)
 
     UPPERCASE_FIELDS = []
     LOWERCASE_FIELDS = []

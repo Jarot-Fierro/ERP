@@ -1,9 +1,10 @@
 from django import forms
 
-from suppliers.models import Supplier, Country, Currency
+from customers.models import Customer
+from suppliers.models import Country
 
 
-class SupplierForm(forms.ModelForm):
+class CustomerForm(forms.ModelForm):
     legal_name = forms.CharField(
         label='Nombre legal',
         max_length=150,
@@ -156,13 +157,13 @@ class SupplierForm(forms.ModelForm):
         ),
         required=True,
     )
-    currency = forms.ModelChoiceField(
+    currency = forms.CharField(
         label='Moneda',
-        queryset=Currency.objects.all(),
-        empty_label='Seleccione una moneda',
-        widget=forms.Select(
+        max_length=150,
+        widget=forms.TextInput(
             attrs={
-                'class': 'form-control form-control-sm form-select',
+                'class': 'form-control form-control-sm',
+                'placeholder': 'Ingrese la moneda'
             }
         ),
         required=True,
@@ -203,7 +204,7 @@ class SupplierForm(forms.ModelForm):
     )
 
     class Meta:
-        model = Supplier
+        model = Customer
         fields = [
             'legal_name',
             'name',

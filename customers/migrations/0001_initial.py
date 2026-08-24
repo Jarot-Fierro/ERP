@@ -12,37 +12,7 @@ class Migration(migrations.Migration):
 
     operations = [
         migrations.CreateModel(
-            name='Country',
-            fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('is_active', models.BooleanField(choices=[(True, 'Activo'), (False, 'Inactivo')], default=True, verbose_name='¿Esta Activo?')),
-                ('created_at', models.DateTimeField(auto_now_add=True, verbose_name='Fecha Creación')),
-                ('updated_at', models.DateTimeField(auto_now=True, verbose_name='Última Actualización')),
-                ('name', models.CharField(max_length=60, verbose_name='País')),
-            ],
-            options={
-                'verbose_name': 'País',
-                'verbose_name_plural': 'Países',
-                'ordering': ['name'],
-            },
-        ),
-        migrations.CreateModel(
-            name='Currency',
-            fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('is_active', models.BooleanField(choices=[(True, 'Activo'), (False, 'Inactivo')], default=True, verbose_name='¿Esta Activo?')),
-                ('created_at', models.DateTimeField(auto_now_add=True, verbose_name='Fecha Creación')),
-                ('updated_at', models.DateTimeField(auto_now=True, verbose_name='Última Actualización')),
-                ('name', models.CharField(max_length=60, verbose_name='País')),
-            ],
-            options={
-                'verbose_name': 'Modena',
-                'verbose_name_plural': 'Monedas',
-                'ordering': ['name'],
-            },
-        ),
-        migrations.CreateModel(
-            name='Supplier',
+            name='Customer',
             fields=[
                 ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('is_active', models.BooleanField(choices=[(True, 'Activo'), (False, 'Inactivo')], default=True, verbose_name='¿Esta Activo?')),
@@ -61,6 +31,7 @@ class Migration(migrations.Migration):
                 ('contact_role', models.CharField(max_length=150, verbose_name='Rol de contacto')),
                 ('category', models.CharField(max_length=150, verbose_name='Categoría')),
                 ('payment_terms', models.CharField(max_length=150, verbose_name='Condiciones de pago')),
+                ('currency', models.CharField(max_length=150, verbose_name='Moneda')),
                 ('payment_method', models.CharField(max_length=150, verbose_name='Método de pago')),
                 ('bank_account', models.CharField(max_length=150, verbose_name='Cuenta bancaria')),
             ],

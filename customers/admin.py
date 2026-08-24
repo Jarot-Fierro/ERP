@@ -1,11 +1,11 @@
 from django.contrib import admin
 
 from core.standard.admin import StandardAdmin
-from suppliers.models import Supplier, Country
+from customers.models import Customer
 
 
-@admin.register(Supplier)
-class SupplierAdmin(StandardAdmin):
+@admin.register(Customer)
+class CustomerAdmin(StandardAdmin):
     list_display = (
         'id',
         'legal_name',
@@ -22,6 +22,7 @@ class SupplierAdmin(StandardAdmin):
         'contact_role',
         'category',
         'payment_terms',
+        'currency',
         'payment_method',
         'bank_account',
         'is_active',
@@ -34,7 +35,7 @@ class SupplierAdmin(StandardAdmin):
         'legal_name',
         'name',
         'tax_id',
-        'country__name',
+        'country',
         'city',
         'email',
         'contact_name',
@@ -45,37 +46,8 @@ class SupplierAdmin(StandardAdmin):
         'is_active',
         'country',
         'category',
+        'currency',
         'payment_method',
-        'created_at',
-        'updated_at',
-    )
-
-    list_display_links = (
-        'name',
-    )
-
-    ordering = (
-        'name',
-    )
-
-
-@admin.register(Country)
-class CountryAdmin(StandardAdmin):
-    list_display = (
-        'id',
-        'name',
-        'is_active',
-        'created_at',
-        'updated_at',
-        'created_by',
-    )
-
-    search_fields = (
-        'name',
-    )
-
-    list_filter = (
-        'is_active',
         'created_at',
         'updated_at',
     )

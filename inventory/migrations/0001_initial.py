@@ -12,48 +12,49 @@ class Migration(migrations.Migration):
 
     operations = [
         migrations.CreateModel(
-            name='Material',
+            name='InventoryMovements',
+            fields=[
+                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+                ('is_active', models.BooleanField(choices=[(True, 'Activo'), (False, 'Inactivo')], default=True, verbose_name='¿Esta Activo?')),
+                ('created_at', models.DateTimeField(auto_now_add=True, verbose_name='Fecha Creación')),
+                ('updated_at', models.DateTimeField(auto_now=True, verbose_name='Última Actualización')),
+                ('quantity', models.PositiveIntegerField(verbose_name='Cantidad')),
+            ],
+            options={
+                'verbose_name': 'Ubicación de Inventario',
+                'verbose_name_plural': 'Ubicaciones de Inventario',
+            },
+        ),
+        migrations.CreateModel(
+            name='LocationInventory',
             fields=[
                 ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('is_active', models.BooleanField(choices=[(True, 'Activo'), (False, 'Inactivo')], default=True, verbose_name='¿Esta Activo?')),
                 ('created_at', models.DateTimeField(auto_now_add=True, verbose_name='Fecha Creación')),
                 ('updated_at', models.DateTimeField(auto_now=True, verbose_name='Última Actualización')),
                 ('name', models.CharField(max_length=200, verbose_name='Nombre')),
-                ('description', models.TextField(verbose_name='Descripción')),
+                ('code', models.CharField(max_length=200, verbose_name='Código')),
+                ('main_location', models.BooleanField(default=True, verbose_name='Es la ubicación principal')),
+                ('location', models.TextField(blank=True, verbose_name='Ubicación')),
             ],
             options={
-                'verbose_name': 'Material',
-                'verbose_name_plural': 'Materiales',
+                'verbose_name': 'Ubicación de Inventario',
+                'verbose_name_plural': 'Ubicaciones de Inventario',
             },
         ),
         migrations.CreateModel(
-            name='MaterialType',
+            name='MovementType',
             fields=[
                 ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('is_active', models.BooleanField(choices=[(True, 'Activo'), (False, 'Inactivo')], default=True, verbose_name='¿Esta Activo?')),
                 ('created_at', models.DateTimeField(auto_now_add=True, verbose_name='Fecha Creación')),
                 ('updated_at', models.DateTimeField(auto_now=True, verbose_name='Última Actualización')),
-                ('name', models.CharField(max_length=200, unique=True, verbose_name='Nombre')),
-                ('symbol', models.CharField(max_length=200, unique=True, verbose_name='Simbolo')),
+                ('name', models.CharField(max_length=200, verbose_name='Nombre')),
+                ('symbol', models.CharField(max_length=50, verbose_name='Simbolo')),
             ],
             options={
-                'verbose_name': 'Tipo de Material',
-                'verbose_name_plural': 'Tipos de Materiales',
-            },
-        ),
-        migrations.CreateModel(
-            name='Unit',
-            fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('is_active', models.BooleanField(choices=[(True, 'Activo'), (False, 'Inactivo')], default=True, verbose_name='¿Esta Activo?')),
-                ('created_at', models.DateTimeField(auto_now_add=True, verbose_name='Fecha Creación')),
-                ('updated_at', models.DateTimeField(auto_now=True, verbose_name='Última Actualización')),
-                ('name', models.CharField(max_length=200, unique=True, verbose_name='Nombre')),
-                ('symbol', models.CharField(max_length=200, unique=True, verbose_name='Simbolo')),
-            ],
-            options={
-                'verbose_name': 'Unidad',
-                'verbose_name_plural': 'Unidades',
+                'verbose_name': 'Tipo de Movimiento',
+                'verbose_name_plural': 'Tipos de Movimientos',
             },
         ),
     ]

@@ -63,7 +63,7 @@ class Material(StandardModel):
         'materials.MaterialType',
         on_delete=models.CASCADE,
         verbose_name='Tipo de Material',
-        related_name='unit',
+        related_name='material_material_type',
         null=True,
         blank=True,
     )

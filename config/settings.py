@@ -80,6 +80,10 @@ INSTALLED_APPS = [
     'users',
     'materials',
     'suppliers',
+    'customers.apps.CustomersConfig',
+    'inventory.apps.InventoryConfig',
+    'accounting.apps.AccountingConfig',
+    'purchases.apps.PurchasesConfig'
 ]
 
 MIDDLEWARE = [

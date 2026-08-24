@@ -1,5 +1,7 @@
 from django import forms
 
+from suppliers.models import Currency, Country
+
 
 class SupplierFilterForm(forms.Form):
     def __init__(self, *args, **kwargs):
@@ -54,16 +56,16 @@ class SupplierFilterForm(forms.Form):
         ),
         required=False,
     )
-    country = forms.CharField(
+    country = forms.ModelChoiceField(
         label='País',
-        max_length=60,
-        widget=forms.TextInput(
+        queryset=Country.objects.all(),
+        empty_label='Seleccione un país',
+        widget=forms.Select(
             attrs={
-                'class': 'form-control form-control-sm',
-                'placeholder': 'Ingrese el país del proveedor'
+                'class': 'form-control form-control-sm form-select',
             }
         ),
-        required=False,
+        required=True,
     )
     state_province = forms.CharField(
         label='Estado/Provincia',
@@ -173,16 +175,16 @@ class SupplierFilterForm(forms.Form):
         ),
         required=False,
     )
-    currency = forms.CharField(
+    currency = forms.ModelChoiceField(
         label='Moneda',
-        max_length=150,
-        widget=forms.TextInput(
+        queryset=Currency.objects.all(),
+        empty_label='Seleccione una moneda',
+        widget=forms.Select(
             attrs={
-                'class': 'form-control form-control-sm',
-                'placeholder': 'Ingrese la moneda'
+                'class': 'form-control form-control-sm form-select',
             }
         ),
-        required=False,
+        required=True,
     )
     payment_method = forms.CharField(
         label='Método de pago',

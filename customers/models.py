@@ -3,32 +3,8 @@ from django.db import models
 from core.standard.models import StandardModel
 
 
-class Country(StandardModel):
-    name = models.CharField(max_length=60, verbose_name="País")
-
-    def __str__(self):
-        return self.name
-
-    class Meta:
-        verbose_name = "País"
-        verbose_name_plural = "Países"
-        ordering = ['name']
-
-
-class Currency(StandardModel):
-    name = models.CharField(max_length=60, verbose_name="País")
-
-    def __str__(self):
-        return self.name
-
-    class Meta:
-        verbose_name = "Modena"
-        verbose_name_plural = "Monedas"
-        ordering = ['name']
-
-
 # Create your models here.
-class Supplier(StandardModel):
+class Customer(StandardModel):
     legal_name = models.CharField(
         max_length=150, blank=True,
         verbose_name="Nombre legal"
@@ -44,7 +20,7 @@ class Supplier(StandardModel):
     country = models.ForeignKey(
         'suppliers.Country',
         on_delete=models.CASCADE,
-        related_name='supplier_country',
+        related_name='customer_country',
         verbose_name="País"
     )
     state_province = models.CharField(
@@ -85,11 +61,8 @@ class Supplier(StandardModel):
         max_length=150,
         verbose_name="Condiciones de pago"
     )
-    currency = models.ForeignKey(
-        'suppliers.Currency',
-        on_delete=models.CASCADE,
-        verbose_name="Moneda",
-        related_name='supplier_currency'
+    currency = models.CharField(
+        max_length=150, verbose_name="Moneda"
     )
     payment_method = models.CharField(
         max_length=150,
@@ -101,6 +74,6 @@ class Supplier(StandardModel):
     )
 
     class Meta:
-        verbose_name = "Proveedor"
-        verbose_name_plural = "Proveedores"
+        verbose_name = "Cliente"
+        verbose_name_plural = "Clientes"
         ordering = ['name']

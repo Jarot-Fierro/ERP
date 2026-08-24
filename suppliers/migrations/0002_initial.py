@@ -10,49 +10,49 @@ class Migration(migrations.Migration):
     initial = True
 
     dependencies = [
-        ('materials', '0001_initial'),
+        ('suppliers', '0001_initial'),
         migrations.swappable_dependency(settings.AUTH_USER_MODEL),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='material',
+            model_name='country',
             name='created_by',
             field=models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.SET_NULL, related_name='%(app_label)s_%(class)s_created', to=settings.AUTH_USER_MODEL, verbose_name='Creado Por'),
         ),
         migrations.AddField(
-            model_name='material',
+            model_name='country',
             name='updated_by',
             field=models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.SET_NULL, related_name='%(app_label)s_%(class)s_updated', to=settings.AUTH_USER_MODEL, verbose_name='Actualizado Por'),
         ),
         migrations.AddField(
-            model_name='materialtype',
+            model_name='currency',
             name='created_by',
             field=models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.SET_NULL, related_name='%(app_label)s_%(class)s_created', to=settings.AUTH_USER_MODEL, verbose_name='Creado Por'),
         ),
         migrations.AddField(
-            model_name='materialtype',
+            model_name='currency',
             name='updated_by',
             field=models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.SET_NULL, related_name='%(app_label)s_%(class)s_updated', to=settings.AUTH_USER_MODEL, verbose_name='Actualizado Por'),
         ),
         migrations.AddField(
-            model_name='material',
-            name='material_type',
-            field=models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.CASCADE, related_name='material_material_type', to='materials.materialtype', verbose_name='Tipo de Material'),
+            model_name='supplier',
+            name='country',
+            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='supplier_country', to='suppliers.country', verbose_name='País'),
         ),
         migrations.AddField(
-            model_name='unit',
+            model_name='supplier',
             name='created_by',
             field=models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.SET_NULL, related_name='%(app_label)s_%(class)s_created', to=settings.AUTH_USER_MODEL, verbose_name='Creado Por'),
         ),
         migrations.AddField(
-            model_name='unit',
-            name='updated_by',
-            field=models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.SET_NULL, related_name='%(app_label)s_%(class)s_updated', to=settings.AUTH_USER_MODEL, verbose_name='Actualizado Por'),
+            model_name='supplier',
+            name='currency',
+            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='supplier_currency', to='suppliers.currency', verbose_name='Moneda'),
         ),
         migrations.AddField(
-            model_name='material',
-            name='unit',
-            field=models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.CASCADE, related_name='unit', to='materials.unit', verbose_name='Unidad'),
+            model_name='supplier',
+            name='updated_by',
+            field=models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.SET_NULL, related_name='%(app_label)s_%(class)s_updated', to=settings.AUTH_USER_MODEL, verbose_name='Actualizado Por'),
         ),
     ]
