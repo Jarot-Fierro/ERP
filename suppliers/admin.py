@@ -1,7 +1,7 @@
 from django.contrib import admin
 
 from core.standard.admin import StandardAdmin
-from suppliers.models import Supplier, Country
+from suppliers.models import Supplier, Country, Currency
 
 
 @admin.register(Supplier)
@@ -61,6 +61,36 @@ class SupplierAdmin(StandardAdmin):
 
 @admin.register(Country)
 class CountryAdmin(StandardAdmin):
+    list_display = (
+        'id',
+        'name',
+        'is_active',
+        'created_at',
+        'updated_at',
+        'created_by',
+    )
+
+    search_fields = (
+        'name',
+    )
+
+    list_filter = (
+        'is_active',
+        'created_at',
+        'updated_at',
+    )
+
+    list_display_links = (
+        'name',
+    )
+
+    ordering = (
+        'name',
+    )
+
+
+@admin.register(Currency)
+class CurrencyAdmin(StandardAdmin):
     list_display = (
         'id',
         'name',

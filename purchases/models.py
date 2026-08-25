@@ -33,7 +33,7 @@ class PurchasesOrder(StandardModel):
         auto_now_add=True,
         verbose_name='Fecha de Emisión'
     )
-    estimated_deñivery_date = models.DateField(
+    estimated_delivery_date = models.DateField(
         verbose_name='Fecha Estimada de Entrega'
     )
 
@@ -83,6 +83,7 @@ class LinesPurchasesOrder(StandardModel):
         related_name='lines_purchases_currency'
     )
     received_quantity = models.PositiveIntegerField(
+        default=0,
         verbose_name='Cantidad Recibida',
     )
 

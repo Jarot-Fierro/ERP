@@ -53,7 +53,7 @@
             {% endif %}
             {% if request.user.role.purchases > 0 %}
                 <div class="col-12 col-sm-6 col-md-2">
-                    <a href="#"
+                    <a href="{% url 'purchases:purchase_list' %}"
                        class="small-box-footer link-dark link-underline-opacity-0 link-underline-opacity-50-hover">
                         <div class="info-box">
                             <span class="info-box-icon text-bg-danger shadow-sm">

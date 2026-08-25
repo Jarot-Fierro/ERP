@@ -1,0 +1,334 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block sidebar %}
+{% endblock %}
+
+{% block title %}{{ title }}{% endblock %}
+
+{% block buttons %}
+    <a class="btn btn-secondary btn-sm" href="{% url list_url_name %}">
+        <i class="fas fa-arrow-left"></i> Volver
+    </a>
+{% endblock %}
+
+{% block content %}
+    <div class="container-fluid">
+        <div class="row justify-content-center">
+            <div class="col-md-12">
+                <form method="post" class="needs-validation" novalidate>
+                    {% csrf_token %}
+                    <input type="hidden" name="action" value="{{ action|default:'add' }}">
+
+                    <!-- Card de la Orden Principal -->
+                    <div class="card card-outline card-primary mb-4">
+                        <div class="card-header">
+                            <h5 class="card-title mb-0">
+                                <i class="fas fa-file-invoice"></i> Datos de la Orden de Compra
+                            </h5>
+                        </div>
+                        <div class="card-body">
+                            {% if form.non_field_errors %}
+                                <div class="alert alert-danger">
+                                    {{ form.non_field_errors }}
+                                </div>
+                            {% endif %}
+
+                            <div class="row g-3">
+                                <div class="col-md-6">
+                                    <label class="form-label fw-bold" for="id_{{ form.supplier.name }}">
+                                        {{ form.supplier.label }}
+                                    </label>
+                                    <select
+                                            name="{{ form.supplier.name }}"
+                                            id="{{ form.supplier.id_for_label }}"
+                                            class="form-select form-select-sm"
+                                            hx-get="{% url 'suppliers:supplier_api_details' %}"
+                                            hx-trigger="change delay:500ms"
+                                            hx-swap="none"
+                                    >
+                                        {% for value, label in form.supplier.field.choices %}
+                                            <option value="{{ value }}"
+                                                    {% if form.supplier.value|stringformat:"s" == value|stringformat:"s" %}selected{% endif %}>
+                                                {{ label }}
+                                            </option>
+                                        {% endfor %}
+                                    </select>
+                                    {% if form.supplier.errors %}
+                                        {% for error in form.supplier.errors %}
+                                            <div class="invalid-feedback d-block text-danger">{{ error }}</div>
+                                        {% endfor %}
+                                    {% endif %}
+                                </div>
+
+                                <div class="col-md-6">
+                                    <label class="form-label fw-bold" for="id_{{ form.estimated_delivery_date.name }}">
+                                        {{ form.estimated_delivery_date.label }}
+                                    </label>
+                                    {{ form.estimated_delivery_date }}
+                                    {% if form.estimated_delivery_date.errors %}
+                                        {% for error in form.estimated_delivery_date.errors %}
+                                            <div class="invalid-feedback d-block text-danger">{{ error }}</div>
+                                        {% endfor %}
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-footer">
+                            <div class="row g-3">
+                                <div class="col-md-3">
+                                    <label class="form-label fw-bold" for="id_supplier">
+                                        Nombre del Proveedor
+                                    </label>
+                                    <input type="text" name="supplier_name" class="form-control form-control-sm"
+                                           id="id_supplier_name" disabled readonly>
+                                </div>
+                                <div class="col-md-3">
+                                    <label class="form-label fw-bold" for="id_supplier_address">
+                                        Dirección
+                                    </label>
+                                    <input type="text" name="supplier_address" class="form-control form-control-sm"
+                                           id="id_supplier_address" disabled readonly>
+                                </div>
+                                <div class="col-md-3">
+                                    <label class="form-label fw-bold" for="id_supplier_city">
+                                        Ciudad
+                                    </label>
+                                    <input type="text" name="supplier_city" class="form-control form-control-sm"
+                                           id="id_supplier_city" disabled readonly>
+                                </div>
+                                <div class="col-md-3">
+                                    <label class="form-label fw-bold" for="id_supplier_country">
+                                        País
+                                    </label>
+                                    <input type="text" name="supplier_country" class="form-control form-control-sm"
+                                           id="id_supplier_country" disabled readonly>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Card de Líneas de la Orden (FormSet) -->
+                    <div class="card card-outline card-info mb-4">
+                        <div class="card-header d-flex justify-content-between align-items-center">
+                            <h5 class="card-title mb-0">
+                                <i class="fas fa-list"></i> Líneas de la Orden
+                            </h5>
+                            <button type="button" class="btn btn-success btn-sm" id="add-line-btn">
+                                <i class="fas fa-plus"></i> Agregar línea
+                            </button>
+                        </div>
+                        <div class="card-body">
+                            {{ formset.management_form }}
+                            {% if formset.non_form_errors %}
+                                <div class="alert alert-danger">
+                                    {{ formset.non_form_errors }}
+                                </div>
+                            {% endif %}
+
+                            <div class="table-responsive">
+                                <table class="table table-bordered table-striped table-hover align-middle mb-0"
+                                       id="lines-table">
+                                    <thead class="table-light">
+                                    <tr>
+                                        <th style="width: 25%;">Material</th>
+                                        <th style="width: 15%;">Cantidad</th>
+                                        <th style="width: 20%;">Unidad de Medida</th>
+                                        <th style="width: 15%;">Precio</th>
+                                        <th style="width: 15%;">Moneda</th>
+                                        <th style="width: 10%;" class="text-center">Acciones</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody id="formset-container">
+                                    {% for line_form in formset %}
+                                        <tr class="formset-row">
+                                            {% for hidden in line_form.hidden_fields %}
+                                                {{ hidden }}
+                                            {% endfor %}
+                                            <td>
+                                                {{ line_form.material }}
+                                                {% if line_form.material.errors %}
+                                                    {% for error in line_form.material.errors %}
+                                                        <div class="invalid-feedback d-block text-danger small">{{ error }}</div>
+                                                    {% endfor %}
+                                                {% endif %}
+                                            </td>
+                                            <td>
+                                                {{ line_form.quantity }}
+                                                {% if line_form.quantity.errors %}
+                                                    {% for error in line_form.quantity.errors %}
+                                                        <div class="invalid-feedback d-block text-danger small">{{ error }}</div>
+                                                    {% endfor %}
+                                                {% endif %}
+                                            </td>
+                                            <td>
+                                                {{ line_form.unit_material }}
+                                                {% if line_form.unit_material.errors %}
+                                                    {% for error in line_form.unit_material.errors %}
+                                                        <div class="invalid-feedback d-block text-danger small">{{ error }}</div>
+                                                    {% endfor %}
+                                                {% endif %}
+                                            </td>
+                                            <td>
+                                                {{ line_form.price }}
+                                                {% if line_form.price.errors %}
+                                                    {% for error in line_form.price.errors %}
+                                                        <div class="invalid-feedback d-block text-danger small">{{ error }}</div>
+                                                    {% endfor %}
+                                                {% endif %}
+                                            </td>
+                                            <td>
+                                                {{ line_form.currency }}
+                                                {% if line_form.currency.errors %}
+                                                    {% for error in line_form.currency.errors %}
+                                                        <div class="invalid-feedback d-block text-danger small">{{ error }}</div>
+                                                    {% endfor %}
+                                                {% endif %}
+                                            </td>
+                                            <td class="text-center">
+                                                {% if line_form.DELETE %}
+                                                    <div class="d-none">{{ line_form.DELETE }}</div>
+                                                {% endif %}
+                                                <button type="button" class="btn btn-danger btn-sm delete-row-btn"
+                                                        title="Eliminar línea">
+                                                    <i class="fas fa-trash-alt"></i>
+                                                </button>
+                                            </td>
+                                        </tr>
+                                    {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+
+                            <!-- Template de empty_form oculto para clonación -->
+                            <table style="display: none;">
+                                <tbody id="empty-form-wrapper">
+                                <tr id="empty-form" class="formset-row">
+                                    {% for hidden in formset.empty_form.hidden_fields %}
+                                        {{ hidden }}
+                                    {% endfor %}
+                                    <td>
+                                        {{ formset.empty_form.material }}
+                                    </td>
+                                    <td>
+                                        {{ formset.empty_form.quantity }}
+                                    </td>
+                                    <td>
+                                        {{ formset.empty_form.unit_material }}
+                                    </td>
+                                    <td>
+                                        {{ formset.empty_form.price }}
+                                    </td>
+                                    <td>
+                                        {{ formset.empty_form.currency }}
+                                    </td>
+                                    <td class="text-center">
+                                        {% if formset.empty_form.DELETE %}
+                                            <div class="d-none">{{ formset.empty_form.DELETE }}</div>
+                                        {% endif %}
+                                        <button type="button" class="btn btn-danger btn-sm delete-row-btn"
+                                                title="Eliminar línea">
+                                            <i class="fas fa-trash-alt"></i>
+                                        </button>
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <div class="card-footer text-end">
+                            <button type="submit" class="btn btn-primary">
+                                <i class="fas fa-save"></i> Guardar
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block scripts %}
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const addButton = document.getElementById('add-line-btn');
+            const container = document.getElementById('formset-container');
+            const totalFormsInput = document.getElementById('id_{{ formset.prefix }}-TOTAL_FORMS');
+            const emptyFormRow = document.getElementById('empty-form');
+
+            if (addButton && container && totalFormsInput && emptyFormRow) {
+                addButton.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    const formIdx = parseInt(totalFormsInput.value);
+                    const newRowHtml = emptyFormRow.outerHTML
+                        .replace(/__prefix__/g, formIdx)
+                        .replace('id="empty-form"', '');
+
+                    container.insertAdjacentHTML('beforeend', newRowHtml);
+                    totalFormsInput.value = formIdx + 1;
+                });
+            }
+
+            // Delegación de eventos para eliminar filas
+            document.addEventListener('click', function (e) {
+                const deleteBtn = e.target.closest('.delete-row-btn');
+                if (deleteBtn) {
+                    e.preventDefault();
+                    const row = deleteBtn.closest('.formset-row');
+                    if (row) {
+                        const deleteCheckbox = row.querySelector('input[type="checkbox"][name$="-DELETE"]');
+                        const idInput = row.querySelector('input[type="hidden"][name$="-id"]');
+
+                        if (idInput && idInput.value && deleteCheckbox) {
+                            deleteCheckbox.checked = true;
+                            row.style.display = 'none';
+                        } else {
+                            if (deleteCheckbox) {
+                                deleteCheckbox.checked = true;
+                            }
+                            row.remove();
+                        }
+                    }
+                }
+            });
+        });
+    </script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const supplierSelect = document.getElementById('id_supplier');
+            if (supplierSelect && supplierSelect.value) {
+                if (window.htmx) {
+                    htmx.trigger(supplierSelect, 'change');
+                }
+            }
+        });
+
+        document.body.addEventListener('htmx:afterRequest', function (event) {
+
+            const supplier = document.getElementById('id_supplier');
+
+            if (event.detail.elt !== supplier) {
+                return;
+            }
+
+            if (!event.detail.successful) {
+                return;
+            }
+
+            const data = JSON.parse(event.detail.xhr.responseText);
+
+            document.getElementById('id_supplier_name').value =
+                data.name || '';
+
+            document.getElementById('id_supplier_address').value =
+                data.address || '';
+
+            document.getElementById('id_supplier_city').value =
+                data.city || '';
+
+            document.getElementById('id_supplier_country').value =
+                data.country || '';
+        });
+    </script>
+{% endblock %}

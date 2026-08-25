@@ -22,7 +22,7 @@ class Currency(StandardModel):
         return self.name
 
     class Meta:
-        verbose_name = "Modena"
+        verbose_name = "Moneda"
         verbose_name_plural = "Monedas"
         ordering = ['name']
 

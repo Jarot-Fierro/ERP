@@ -1,5 +1,6 @@
 from django.urls import path
 
+from suppliers.apis import api_suppliers_details
 from suppliers.views import SupplierListView, SupplierCreateView, SupplierUpdateView
 
 app_name = 'suppliers'
@@ -19,5 +20,12 @@ urlpatterns = [
         'update/<int:pk>/',
         SupplierUpdateView.as_view(),
         name='supplier_update'
+    ),
+
+    #     APIS
+    path(
+        'api/supplier-details/',
+        api_suppliers_details,
+        name='supplier_api_details'
     ),
 ]

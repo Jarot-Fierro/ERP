@@ -42,7 +42,7 @@ class PurchasesOrderAdmin(StandardAdmin):
         'id',
         'supplier',
         'issue_date',
-        'estimated_deñivery_date',
+        'estimated_delivery_date',
         'is_active',
         'created_at',
         'updated_at',
@@ -57,7 +57,7 @@ class PurchasesOrderAdmin(StandardAdmin):
     list_filter = (
         'supplier',
         'issue_date',
-        'estimated_deñivery_date',
+        'estimated_delivery_date',
         'is_active',
         'created_at',
         'updated_at',
