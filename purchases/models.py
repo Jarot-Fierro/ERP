@@ -94,3 +94,22 @@ class LinesPurchasesOrder(StandardModel):
         verbose_name = 'Liena de orden de compra'
         verbose_name_plural = 'Líneas de ordenes de compra'
         ordering = ['id']
+
+
+class GoodsReceipStatus(StandardModel):
+    name = models.CharField(
+        max_length=200,
+        verbose_name='Nombre'
+    )
+    symbol = models.CharField(
+        max_length=50,
+        verbose_name='Simbolo'
+    )
+
+    def __str__(self):
+        return self.name
+
+    class Meta:
+        verbose_name = 'Estado de recepción de Mercancía'
+        verbose_name_plural = 'Estados de recepción de Mercancías'
+        ordering = ['name']

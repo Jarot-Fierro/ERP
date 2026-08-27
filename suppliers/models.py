@@ -104,3 +104,6 @@ class Supplier(StandardModel):
         verbose_name = "Proveedor"
         verbose_name_plural = "Proveedores"
         ordering = ['name']
+
+    def __str__(self):
+        return self.name

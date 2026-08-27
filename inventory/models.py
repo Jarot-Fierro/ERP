@@ -69,6 +69,17 @@ class InventoryMovements(StandardModel):
     quantity = models.PositiveIntegerField(
         verbose_name='Cantidad'
     )
+    price = models.PositiveIntegerField(
+        verbose_name='Precio'
+    )
+    currency = models.ForeignKey(
+        'suppliers.Currency',
+        on_delete=models.CASCADE,
+        verbose_name='Moneda',
+        null=True,
+        blank=True,
+        related_name='inventory_currency'
+    )
     movement_type = models.ForeignKey(
         'inventory.MovementType',
         on_delete=models.CASCADE,
@@ -80,5 +91,5 @@ class InventoryMovements(StandardModel):
         return f"{self.material} - {self.location} - {self.unit_type}"
 
     class Meta:
-        verbose_name = 'Ubicación de Inventario'
-        verbose_name_plural = 'Ubicaciones de Inventario'
+        verbose_name = 'Movimiento de Inventario'
+        verbose_name_plural = 'Movimientos de Inventario'
