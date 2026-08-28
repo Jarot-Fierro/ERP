@@ -1,16 +1,17 @@
 from django import forms
 
-from materials.models import Material, Unit, MaterialType
+from core.models import Unit
+from products.models import Product, ProductType
 
 
-class MaterialForm(forms.ModelForm):
+class ProductForm(forms.ModelForm):
     name = forms.CharField(
         label='Nombre',
         max_length=100,
         widget=forms.TextInput(
             attrs={
                 'class': 'form-control form-control-sm',
-                'placeholder': 'Ingrese el nombre del material'
+                'placeholder': 'Ingrese el nombre del producto'
             }
         ),
         required=True,
@@ -21,7 +22,7 @@ class MaterialForm(forms.ModelForm):
         widget=forms.Textarea(
             attrs={
                 'class': 'form-control form-control-sm',
-                'placeholder': 'Ingrese una breve descripción del material',
+                'placeholder': 'Ingrese una breve descripción del producto',
                 'rows': 3
             }
         ),
@@ -38,10 +39,10 @@ class MaterialForm(forms.ModelForm):
         ),
         required=True,
     )
-    material_type = forms.ModelChoiceField(
-        label='Tipo de Material',
-        queryset=MaterialType.objects.all(),
-        empty_label='- Seleccione un tipo de material -',
+    product_type = forms.ModelChoiceField(
+        label='Tipo de Product',
+        queryset=ProductType.objects.all(),
+        empty_label='- Seleccione un tipo de producto -',
         widget=forms.Select(
             attrs={
                 'class': 'form-control form-select',
@@ -63,11 +64,11 @@ class MaterialForm(forms.ModelForm):
     )
 
     class Meta:
-        model = Material
+        model = Product
         fields = [
             'name',
             'description',
             'unit',
-            'material_type',
+            'product_type',
             'is_active',
         ]

@@ -29,9 +29,9 @@ class StandardBaseView(LoginRequiredMixin):
     def get_queryset(self):
         queryset = self.model.objects.all()
 
-        if (hasattr(self.model, "establecimiento") and not self.request.user.is_superuser):
+        if (hasattr(self.model, "establishment") and not self.request.user.is_superuser):
             queryset = queryset.filter(
-                establecimiento=self.request.user.establecimiento
+                establishment=self.request.user.establishment
             )
         # if hasattr(self.model, "is_active"):
         #     queryset = queryset.filter(is_active=True)
@@ -196,8 +196,8 @@ class StandardListView(StandardBaseView, ListView):
 
 class StandardCreateView(StandardBaseView, CreateView):
     def form_valid(self, form):
-        if hasattr(form.instance, 'establecimiento') and not form.instance.establecimiento:
-            form.instance.establecimiento = self.request.user.establecimiento
+        if hasattr(form.instance, 'establishment') and not form.instance.establishment:
+            form.instance.establishment = self.request.user.establishment
 
         if hasattr(form.instance, 'created_by'):
             form.instance.created_by = self.request.user
@@ -274,10 +274,10 @@ class StandardDetailView(StandardBaseView, DetailView):
 
 @require_POST
 def catalogo_desactivar(request, pk, model, redirect_url_name):
-    # Intentamos filtrar por establecimiento si el modelo lo tiene
+    # Intentamos filtrar por establishment si el modelo lo tiene
     filter_kwargs = {'pk': pk}
-    if hasattr(model, 'establecimiento'):
-        filter_kwargs['establecimiento'] = request.user.establecimiento
+    if hasattr(model, 'establishment'):
+        filter_kwargs['establishment'] = request.user.establishment
 
     obj = get_object_or_404(model, **filter_kwargs)
 

@@ -77,7 +77,7 @@ class InventoryMovementsAdmin(StandardAdmin):
     list_display = (
         'id',
         'location',
-        'material',
+        'product',
         'unit_type',
         'quantity',
         'movement_type',
@@ -89,14 +89,14 @@ class InventoryMovementsAdmin(StandardAdmin):
 
     search_fields = (
         'location__name',
-        'material__name',
+        'product__name',
         'unit_type__name',
         'movement_type__name',
     )
 
     list_filter = (
         'location',
-        'material',
+        'product',
         'unit_type',
         'movement_type',
         'is_active',

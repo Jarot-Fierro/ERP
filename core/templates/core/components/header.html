@@ -22,9 +22,9 @@
                     <select class="form-select form-select-sm"
                             onchange="window.location.href=''.replace('0', this.value)">
                         <option value="" disabled>Seleccione Establecimiento</option>
-                        {% for est in global_establecimientos %}
-                            <option value="{{ est.id }}" {% if user.establecimiento_id == est.id %}selected{% endif %}>
-                                {{ est.nombre }}
+                        {% for est in global_establishment %}
+                            <option value="{{ est.id }}" {% if user.establishment_id == est.id %}selected{% endif %}>
+                                {{ est.name }}
                             </option>
                         {% endfor %}
                     </select>
@@ -98,12 +98,22 @@
             {% if user.is_authenticated %}
                 <li class="nav-item dropdown user-menu">
                     <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">
-                        <img
-                                src="{% static 'core/media/logo_redondo_ssa.jpg' %}"
-                                class="user-image rounded-circle shadow"
-                                alt="Imagen de perfil"
-                                style="border-radius: 50%"
-                        />
+
+                        {% if request.user.avatar and request.user.avatar.image %}
+                            <img
+                                    src="{{ request.user.avatar.image.url }}"
+                                    class="user-image rounded-circle shadow"
+                                    alt="{{ request.user.avatar.name }}"
+                                    style="border-radius: 50%"
+                            />
+                        {% else %}
+                            <img
+                                    src="{% static 'core/media/AdminLTELogo.png' %}"
+                                    class="user-image rounded-circle shadow"
+                                    alt="Imagen de perfil"
+                                    style="border-radius: 50%"
+                            />
+                        {% endif %}
                         <span class="d-none d-md-inline">
                         {% if user.get_full_name %}
                             {{ user.get_full_name }}
@@ -114,11 +124,22 @@
                     </a>
                     <ul class="dropdown-menu dropdown-menu-lg dropdown-menu-end">
                         <li class="user-header text-bg-primary">
-                            <img
-                                    src="{% static 'core/media/logo_redondo_ssa.jpg' %}"
-                                    class="rounded-circle shadow"
-                                    alt="User Image"
-                            />
+
+                            {% if request.user.avatar and request.user.avatar.image %}
+                                <img
+                                        src="{{ request.user.avatar.image.url }}"
+                                        class="rounded-circle shadow"
+                                        alt="{{ request.user.avatar.name }}"
+                                        style="border-radius: 50%"
+                                />
+                            {% else %}
+                                <img
+                                        src="{% static 'core/media/AdminLTELogo.png' %}"
+                                        class="rounded-circle shadow"
+                                        alt="Imagen de perfil"
+                                        style="border-radius: 50%"
+                                />
+                            {% endif %}
                             <p>
                                 {{ user.username }}
                                 <br>

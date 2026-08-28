@@ -146,9 +146,9 @@
                                                 {{ hidden }}
                                             {% endfor %}
                                             <td>
-                                                {{ line_form.material }}
-                                                {% if line_form.material.errors %}
-                                                    {% for error in line_form.material.errors %}
+                                                {{ line_form.product }}
+                                                {% if line_form.product.errors %}
+                                                    {% for error in line_form.product.errors %}
                                                         <div class="invalid-feedback d-block text-danger small">{{ error }}</div>
                                                     {% endfor %}
                                                 {% endif %}
@@ -162,9 +162,9 @@
                                                 {% endif %}
                                             </td>
                                             <td>
-                                                {{ line_form.unit_material }}
-                                                {% if line_form.unit_material.errors %}
-                                                    {% for error in line_form.unit_material.errors %}
+                                                {{ line_form.unit }}
+                                                {% if line_form.unit.errors %}
+                                                    {% for error in line_form.unit.errors %}
                                                         <div class="invalid-feedback d-block text-danger small">{{ error }}</div>
                                                     {% endfor %}
                                                 {% endif %}
@@ -208,13 +208,13 @@
                                         {{ hidden }}
                                     {% endfor %}
                                     <td>
-                                        {{ formset.empty_form.material }}
+                                        {{ formset.empty_form.product }}
                                     </td>
                                     <td>
                                         {{ formset.empty_form.quantity }}
                                     </td>
                                     <td>
-                                        {{ formset.empty_form.unit_material }}
+                                        {{ formset.empty_form.unit }}
                                     </td>
                                     <td>
                                         {{ formset.empty_form.price }}

@@ -1,7 +1,7 @@
 from django.http import JsonResponse
 from django.shortcuts import get_object_or_404
 
-from materials.models import Material
+from products.models import Material
 
 
 def api_materials_details(request, id):

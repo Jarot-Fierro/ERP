@@ -1,6 +1,7 @@
 from django.db import models
+from django.utils import timezone
 
-from core.standard.models import StandardModel
+from core.standard.models import StandardModel, StandardModelEstablishment
 
 
 class OrderStatus(StandardModel):
@@ -22,7 +23,13 @@ class OrderStatus(StandardModel):
         ordering = ['name']
 
 
-class PurchasesOrder(StandardModel):
+class PurchasesOrder(StandardModelEstablishment):
+    code = models.CharField(
+        max_length=30,
+        unique=True,
+        editable=False,
+        verbose_name='Código'
+    )
     supplier = models.ForeignKey(
         'suppliers.Supplier',
         on_delete=models.CASCADE,
@@ -38,7 +45,26 @@ class PurchasesOrder(StandardModel):
     )
 
     def __str__(self):
-        return f"{str(self.id)}"
+        return self.code
+
+    def save(self, *args, **kwargs):
+        if not self.code:
+            year = timezone.now().year
+            last_order = (
+                PurchasesOrder.objects
+                .filter(code__startswith=f'OC-{year}-')
+                .order_by('-id')
+                .first()
+            )
+            if last_order:
+                last_number = int(
+                    last_order.code.split('-')[-1]
+                ) + 1
+            else:
+                last_number = 1
+            self.code = f'OC-{year}-{last_number:05d}'
+
+        super().save(*args, **kwargs)
 
     class Meta:
         verbose_name = 'Orden de compra'
@@ -46,18 +72,18 @@ class PurchasesOrder(StandardModel):
         ordering = ['id']
 
 
-class LinesPurchasesOrder(StandardModel):
+class LinesPurchasesOrder(StandardModelEstablishment):
     purchase_order = models.ForeignKey(
         PurchasesOrder,
         on_delete=models.CASCADE,
         verbose_name='Orden de compra',
         related_name='lines_purchases_order'
     )
-    material = models.ForeignKey(
-        'materials.Material',
+    product = models.ForeignKey(
+        'products.Product',
         on_delete=models.CASCADE,
-        verbose_name='Material',
-        related_name='lines_purchases_order_material'
+        verbose_name='Producto',
+        related_name='lines_purchases_order_product'
     )
     position = models.PositiveIntegerField(
         default=1,
@@ -67,17 +93,17 @@ class LinesPurchasesOrder(StandardModel):
         default=0,
         verbose_name='Cantidad'
     )
-    unit_material = models.ForeignKey(
-        'materials.Unit',
+    unit = models.ForeignKey(
+        'core.Unit',
         on_delete=models.CASCADE,
-        verbose_name='Unidad de Material',
-        related_name='lines_purchases_unit_material'
+        verbose_name='Tipo de Unidad',
+        related_name='lines_purchases_unit'
     )
     price = models.PositiveIntegerField(
         verbose_name='Precio'
     )
     currency = models.ForeignKey(
-        'suppliers.Currency',
+        'core.Currency',
         on_delete=models.CASCADE,
         verbose_name='Moneda',
         related_name='lines_purchases_currency'
@@ -96,7 +122,7 @@ class LinesPurchasesOrder(StandardModel):
         ordering = ['id']
 
 
-class GoodsReceipStatus(StandardModel):
+class GoodsReceipStatus(StandardModelEstablishment):
     name = models.CharField(
         max_length=200,
         verbose_name='Nombre'

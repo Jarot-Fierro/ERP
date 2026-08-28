@@ -1,5 +1,8 @@
+from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import path, include
+
+from config import settings
 
 urlpatterns = [
     path(
@@ -15,8 +18,8 @@ urlpatterns = [
         include('users.urls')
     ),
     path(
-        'materials/',
-        include('materials.urls')
+        'products/',
+        include('products.urls')
     ),
     path(
         'suppliers/',
@@ -31,3 +34,9 @@ urlpatterns = [
         include('purchases.urls')
     ),
 ]
+
+handler404 = 'core.errors.handler404'
+handler403 = 'core.errors.handler403'
+handler500 = 'core.errors.handler500'
+
+urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

@@ -101,13 +101,13 @@ class AccountAccount(StandardModel):
         related_name='account_nature',
     )
     currency = models.ForeignKey(
-        'suppliers.Currency',
+        'core.Currency',
         on_delete=models.CASCADE,
         verbose_name='Moneda',
         related_name='account_currency',
     )
     country = models.ForeignKey(
-        'suppliers.Country',
+        'core.Country',
         on_delete=models.CASCADE,
         verbose_name='País',
         related_name='account_country',

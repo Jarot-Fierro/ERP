@@ -1,6 +1,9 @@
 from django.contrib.auth.models import AbstractUser
 from django.db import models
 
+from config import settings
+from core.standard.models import StandardModelEstablishment
+
 
 class User(AbstractUser):
     username = models.CharField(
@@ -19,13 +22,49 @@ class User(AbstractUser):
         null=True,
         blank=True,
     )
-    establecimiento = models.ForeignKey(
+    establishment = models.ForeignKey(
         'core.Establishment',
         on_delete=models.CASCADE,
         verbose_name='Establecimiento',
         related_name='establishment',
         null=True,
         blank=True,
+    )
+    avatar = models.ForeignKey(
+        'users.Avatar',
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        verbose_name='Avatar',
+        related_name='avatar_users'
+    )
+    created_at = models.DateTimeField(
+        auto_now_add=True,
+        verbose_name='Fecha Creación',
+        null=True,
+        blank=True
+    )
+    updated_at = models.DateTimeField(
+        auto_now=True,
+        verbose_name='Última Actualización',
+        null=True,
+        blank=True
+    )
+    created_by = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        related_name="%(app_label)s_%(class)s_created",
+        verbose_name='Creado Por'
+    )
+    updated_by = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        related_name="%(app_label)s_%(class)s_updated",
+        verbose_name='Actualizado Por'
     )
 
     USERNAME_FIELD = 'username'
@@ -39,7 +78,7 @@ class User(AbstractUser):
         ordering = ['username']
 
 
-class Role(models.Model):
+class Role(StandardModelEstablishment):
     PERMISION_CHOICES = [
         (0, 'Sin Acceso'),
         (1, 'Solo Ver'),
@@ -60,10 +99,10 @@ class Role(models.Model):
         default=0,
         verbose_name='Proveedores'
     )
-    materials = models.IntegerField(
+    products = models.IntegerField(
         choices=PERMISION_CHOICES,
         default=0,
-        verbose_name='Materiales'
+        verbose_name='Productos'
     )
     purchases = models.IntegerField(
         choices=PERMISION_CHOICES,
@@ -97,4 +136,31 @@ class Role(models.Model):
     class Meta:
         verbose_name = 'Rol'
         verbose_name_plural = 'Roles'
+        ordering = ['name']
+        unique_together = ['name', 'establishment']
+
+
+class Avatar(StandardModelEstablishment):
+    name = models.CharField(
+        max_length=100,
+        unique=True,
+        verbose_name='Nombre'
+    )
+
+    image = models.ImageField(
+        upload_to='avatars/',
+        verbose_name='Imagen'
+    )
+
+    is_active = models.BooleanField(
+        default=True,
+        verbose_name='Activo'
+    )
+
+    def __str__(self):
+        return self.name
+
+    class Meta:
+        verbose_name = 'Avatar'
+        verbose_name_plural = 'Avatares'
         ordering = ['name']

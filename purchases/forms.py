@@ -1,9 +1,10 @@
 from django import forms
 from django.forms import inlineformset_factory
 
-from materials.models import Material, Unit
+from core.models import Unit, Currency
+from products.models import Product
 from purchases.models import PurchasesOrder, LinesPurchasesOrder as LinesPurchasesOrderModel
-from suppliers.models import Supplier, Currency
+from suppliers.models import Supplier
 
 
 class PurchasesOrderForm(forms.ModelForm):
@@ -40,10 +41,10 @@ class PurchasesOrderForm(forms.ModelForm):
 
 
 class LinesPurchasesOrderForm(forms.ModelForm):
-    material = forms.ModelChoiceField(
-        label='Material',
-        queryset=Material.objects.all(),
-        empty_label='Seleccione un material',
+    product = forms.ModelChoiceField(
+        label='Producto',
+        queryset=Product.objects.all(),
+        empty_label='Seleccione un producto',
         widget=forms.Select(
             attrs={
                 'class': 'form-select form-select-sm',
@@ -62,7 +63,7 @@ class LinesPurchasesOrderForm(forms.ModelForm):
         ),
         required=True,
     )
-    unit_material = forms.ModelChoiceField(
+    unit = forms.ModelChoiceField(
         label='Unidad de Medida',
         queryset=Unit.objects.all(),
         empty_label='Seleccione una medida',
@@ -100,9 +101,9 @@ class LinesPurchasesOrderForm(forms.ModelForm):
     class Meta:
         model = LinesPurchasesOrderModel
         fields = [
-            'material',
+            'product',
             'quantity',
-            'unit_material',
+            'unit',
             'price',
             'currency',
         ]

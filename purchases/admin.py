@@ -79,9 +79,9 @@ class LinesPurchasesOrderAdmin(StandardAdmin):
         'id',
         'purchase_order',
         'position',
-        'material',
+        'product',
         'quantity',
-        'unit_material',
+        'unit',
         'price',
         'currency',
         'received_quantity',
@@ -93,13 +93,13 @@ class LinesPurchasesOrderAdmin(StandardAdmin):
 
     search_fields = (
         'purchase_order__id',
-        'material__name',
+        'product__name',
     )
 
     list_filter = (
         'purchase_order',
-        'material',
-        'unit_material',
+        'product',
+        'unit',
         'currency',
         'is_active',
         'created_at',

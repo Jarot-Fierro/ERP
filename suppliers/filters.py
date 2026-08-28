@@ -1,6 +1,6 @@
 from django import forms
 
-from suppliers.models import Currency, Country
+from core.models import Country, Currency
 
 
 class SupplierFilterForm(forms.Form):

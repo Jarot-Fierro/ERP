@@ -49,9 +49,9 @@ class StandardModelEstablishment(models.Model):
     ]
     is_active = models.BooleanField(default=True, choices=STATUS_CHOICES, verbose_name='¿Esta Activo?')
 
-    establecimiento = models.ForeignKey('core.Establecimiento', on_delete=models.PROTECT, null=True, blank=True,
-                                        related_name="%(app_label)s_%(class)s_related",
-                                        verbose_name='Establecimiento')
+    establishment = models.ForeignKey('core.Establishment', on_delete=models.PROTECT, null=True, blank=True,
+                                      related_name="%(app_label)s_%(class)s_related",
+                                      verbose_name='Establecimiento')
 
     created_at = models.DateTimeField(auto_now_add=True, verbose_name='Fecha Creación')
     updated_at = models.DateTimeField(auto_now=True, verbose_name='Última Actualización')

@@ -49,8 +49,8 @@ class PurchaseOrderCreateView(StandardCreateView):
         formset = context['formset']
         if formset.is_valid():
             with transaction.atomic():
-                if hasattr(form.instance, 'establecimiento') and not form.instance.establecimiento:
-                    form.instance.establecimiento = getattr(self.request.user, 'establecimiento', None)
+                if hasattr(form.instance, 'establishment') and not form.instance.establishment:
+                    form.instance.establishment = getattr(self.request.user, 'establishment', None)
                 if hasattr(form.instance, 'created_by') and not form.instance.created_by:
                     form.instance.created_by = self.request.user
 
@@ -60,8 +60,8 @@ class PurchaseOrderCreateView(StandardCreateView):
                 for i, line in enumerate(lines, start=1):
                     if hasattr(line, 'created_by') and not line.created_by:
                         line.created_by = self.request.user
-                    if hasattr(line, 'establecimiento') and not line.establecimiento:
-                        line.establecimiento = getattr(self.request.user, 'establecimiento', None)
+                    if hasattr(line, 'establishment') and not line.establishment:
+                        line.establishment = getattr(self.request.user, 'establishment', None)
                     if getattr(line, 'received_quantity', None) is None:
                         line.received_quantity = 0
                     if not getattr(line, 'position', None):
@@ -113,8 +113,8 @@ class PurchaseOrderUpdateView(StandardUpdateView):
                         line.created_by = self.request.user
                     if hasattr(line, 'updated_by'):
                         line.updated_by = self.request.user
-                    if hasattr(line, 'establecimiento') and not line.establecimiento:
-                        line.establecimiento = getattr(self.request.user, 'establecimiento', None)
+                    if hasattr(line, 'establishment') and not line.establishment:
+                        line.establishment = getattr(self.request.user, 'establishment', None)
                     if getattr(line, 'received_quantity', None) is None:
                         line.received_quantity = 0
                     if not getattr(line, 'position', None):

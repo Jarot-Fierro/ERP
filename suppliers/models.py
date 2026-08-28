@@ -3,30 +3,6 @@ from django.db import models
 from core.standard.models import StandardModel
 
 
-class Country(StandardModel):
-    name = models.CharField(max_length=60, verbose_name="País")
-
-    def __str__(self):
-        return self.name
-
-    class Meta:
-        verbose_name = "País"
-        verbose_name_plural = "Países"
-        ordering = ['name']
-
-
-class Currency(StandardModel):
-    name = models.CharField(max_length=60, verbose_name="País")
-
-    def __str__(self):
-        return self.name
-
-    class Meta:
-        verbose_name = "Moneda"
-        verbose_name_plural = "Monedas"
-        ordering = ['name']
-
-
 # Create your models here.
 class Supplier(StandardModel):
     legal_name = models.CharField(
@@ -42,7 +18,7 @@ class Supplier(StandardModel):
         verbose_name="RUC/CIF"
     )
     country = models.ForeignKey(
-        'suppliers.Country',
+        'core.Country',
         on_delete=models.CASCADE,
         related_name='supplier_country',
         verbose_name="País"
@@ -86,7 +62,7 @@ class Supplier(StandardModel):
         verbose_name="Condiciones de pago"
     )
     currency = models.ForeignKey(
-        'suppliers.Currency',
+        'core.Currency',
         on_delete=models.CASCADE,
         verbose_name="Moneda",
         related_name='supplier_currency'

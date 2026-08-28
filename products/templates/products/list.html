@@ -4,7 +4,7 @@
 {% endblock %}
 
 {% block buttons %}
-    {% if request.user.role.materials >= 2 %}
+    {% if request.user.role.products >= 2 %}
         <a href="{% url create_url_name %}"
            class="btn btn-sm mx-1 btn-primary"
            title="Nuevo Registro">
@@ -18,7 +18,7 @@
         <i class="bi bi-file-earmark-spreadsheet me-1"></i>
         Exportar CSV
     </a>
-    {% if request.user.role.materials >= 2 %}
+    {% if request.user.role.products >= 2 %}
         <a href=""
            class="btn btn-sm mx-1 btn-warning"
            title="Historial">
@@ -45,7 +45,7 @@
                                     {{ filter_form.id }}
                                     {{ filter_form.name }}
                                     {{ filter_form.unit }}
-                                    {{ filter_form.material_type }}
+                                    {{ filter_form.product_type }}
                                     {{ filter_form.is_active }}
                                     <button type="submit" class="btn btn-primary">
                                         <i class="bi bi-funnel-fill me-1"></i>
@@ -69,10 +69,10 @@
                                 <th scope="col">Nombre</th>
                                 <th scope="col">Descripción</th>
                                 <th scope="col">Unidad</th>
-                                <th scope="col">Tipo Material</th>
+                                <th scope="col">Categoría</th>
                                 <th scope="col">Fecha Creación</th>
                                 <th scope="col">Estado</th>
-                                {% if request.user.role.materials >= 2 %}
+                                {% if request.user.role.products >= 2 %}
                                     <th scope="col">Acciones</th>
                                 {% endif %}
                             </tr>
@@ -95,7 +95,7 @@
                                             -
                                         {% endif %}
                                     </td>
-                                    {% if request.user.role.materials >= 2 %}
+                                    {% if request.user.role.products >= 2 %}
                                         <td>
                                             <a href="{% url update_url_name object.id %}"
                                                class="btn btn-sm btn-outline-primary"

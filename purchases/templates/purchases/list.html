@@ -4,7 +4,7 @@
 {% endblock %}
 
 {% block buttons %}
-    {% if request.user.role.materials >= 2 %}
+    {% if request.user.role.purchases >= 2 %}
         <a href="{% url create_url_name %}"
            class="btn btn-sm mx-1 btn-primary"
            title="Nuevo Registro">
@@ -18,7 +18,7 @@
         <i class="bi bi-file-earmark-spreadsheet me-1"></i>
         Exportar CSV
     </a>
-    {% if request.user.role.materials >= 2 %}
+    {% if request.user.role.purchases >= 2 %}
         <a href=""
            class="btn btn-sm mx-1 btn-warning"
            title="Historial">
@@ -70,7 +70,7 @@
                                 <th scope="col">F.Creación</th>
                                 <th scope="col">F.Estimada Entrega</th>
                                 <th scope="col">Estado</th>
-                                {% if request.user.role.materials >= 2 %}
+                                {% if request.user.role.purchases >= 2 %}
                                     <th scope="col">Acciones</th>
                                 {% endif %}
                             </tr>

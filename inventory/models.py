@@ -1,6 +1,6 @@
 from django.db import models
 
-from core.standard.models import StandardModel
+from core.standard.models import StandardModel, StandardModelEstablishment
 
 
 class MovementType(StandardModel):
@@ -21,7 +21,7 @@ class MovementType(StandardModel):
         verbose_name_plural = 'Tipos de Movimientos'
 
 
-class LocationInventory(StandardModel):
+class LocationInventory(StandardModelEstablishment):
     name = models.CharField(
         max_length=200,
         verbose_name='Nombre'
@@ -47,21 +47,21 @@ class LocationInventory(StandardModel):
         verbose_name_plural = 'Ubicaciones de Inventario'
 
 
-class InventoryMovements(StandardModel):
+class InventoryMovements(StandardModelEstablishment):
     location = models.ForeignKey(
         'inventory.LocationInventory',
         on_delete=models.CASCADE,
         verbose_name='Ubicación',
         related_name='inventory_location'
     )
-    material = models.ForeignKey(
-        'materials.Material',
+    product = models.ForeignKey(
+        'products.Product',
         on_delete=models.CASCADE,
-        verbose_name='Material',
-        related_name='inventory_material'
+        verbose_name='Producto',
+        related_name='inventory_product'
     )
     unit_type = models.ForeignKey(
-        'materials.Unit',
+        'core.Unit',
         on_delete=models.CASCADE,
         verbose_name='Tipo de Unidad',
         related_name='inventory_unit_type'
@@ -73,7 +73,7 @@ class InventoryMovements(StandardModel):
         verbose_name='Precio'
     )
     currency = models.ForeignKey(
-        'suppliers.Currency',
+        'core.Currency',
         on_delete=models.CASCADE,
         verbose_name='Moneda',
         null=True,
@@ -88,7 +88,7 @@ class InventoryMovements(StandardModel):
     )
 
     def __str__(self):
-        return f"{self.material} - {self.location} - {self.unit_type}"
+        return f"{self.product} - {self.location} - {self.unit_type}"
 
     class Meta:
         verbose_name = 'Movimiento de Inventario'

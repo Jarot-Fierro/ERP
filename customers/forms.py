@@ -1,7 +1,7 @@
 from django import forms
 
+from core.models import Country
 from customers.models import Customer
-from suppliers.models import Country
 
 
 class CustomerForm(forms.ModelForm):

@@ -1,17 +1,17 @@
 from django.contrib import admin
 
 from core.standard.admin import StandardAdmin
-from .models import Material, Unit, MaterialType
+from .models import Product, ProductType
 
 
-@admin.register(Material)
-class MaterialAdmin(StandardAdmin):
+@admin.register(Product)
+class ProductAdmin(StandardAdmin):
     list_display = (
         'id',
         'name',
         'description',
         'unit',
-        'material_type',
+        'product_type',
         'is_active',
         'created_at',
         'updated_at',
@@ -22,11 +22,11 @@ class MaterialAdmin(StandardAdmin):
         'name',
         'description',
         'unit',
-        'material_type',
+        'product_type',
     )
 
     list_filter = (
-        'material_type',
+        'product_type',
         'unit',
         'is_active',
         'created_at',
@@ -42,40 +42,8 @@ class MaterialAdmin(StandardAdmin):
     )
 
 
-@admin.register(Unit)
-class UnitAdmin(StandardAdmin):
-    list_display = (
-        'id',
-        'name',
-        'symbol',
-        'is_active',
-        'created_at',
-        'updated_at',
-        'created_by',
-    )
-
-    search_fields = (
-        'name',
-        'symbol',
-    )
-
-    list_filter = (
-        'is_active',
-        'created_at',
-        'updated_at',
-    )
-
-    list_display_links = (
-        'name',
-    )
-
-    ordering = (
-        'name',
-    )
-
-
-@admin.register(MaterialType)
-class MaterialTypeAdmin(StandardAdmin):
+@admin.register(ProductType)
+class ProductTypeAdmin(StandardAdmin):
     list_display = (
         'id',
         'name',

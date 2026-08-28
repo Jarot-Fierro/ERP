@@ -5,16 +5,16 @@
 {% block content %}
     <div class="container-fluid">
         <div class="row">
-            {% if request.user.role.materials > 0 %}
+            {% if request.user.role.products > 0 %}
                 <div class="col-12 col-sm-6 col-md-2">
-                    <a href="{% url 'materials:material_list' %}"
+                    <a href="{% url 'products:product_list' %}"
                        class="small-box-footer link-dark link-underline-opacity-0 link-underline-opacity-50-hover">
                         <div class="info-box">
                             <span class="info-box-icon text-bg-danger-2 shadow-sm">
                                 <i class="bi bi-box-seam"></i>
                             </span>
                             <div class="info-box-content">
-                                <span class="info-box-text">Materiales</span>
+                                <span class="info-box-text">Productos</span>
                             </div>
                         </div>
                     </a>

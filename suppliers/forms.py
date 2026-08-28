@@ -1,6 +1,7 @@
 from django import forms
 
-from suppliers.models import Supplier, Country, Currency
+from core.models import Country, Currency
+from suppliers.models import Supplier
 
 
 class SupplierForm(forms.ModelForm):

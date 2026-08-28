@@ -1,10 +1,10 @@
 from django.db import models
 
-from core.standard.models import StandardModel
+from core.standard.models import StandardModelEstablishment
 
 
 # Create your models here.
-class Customer(StandardModel):
+class Customer(StandardModelEstablishment):
     legal_name = models.CharField(
         max_length=150, blank=True,
         verbose_name="Nombre legal"
@@ -18,7 +18,7 @@ class Customer(StandardModel):
         verbose_name="RUC/CIF"
     )
     country = models.ForeignKey(
-        'suppliers.Country',
+        'core.Country',
         on_delete=models.CASCADE,
         related_name='customer_country',
         verbose_name="País"
@@ -61,8 +61,11 @@ class Customer(StandardModel):
         max_length=150,
         verbose_name="Condiciones de pago"
     )
-    currency = models.CharField(
-        max_length=150, verbose_name="Moneda"
+    currency = models.ForeignKey(
+        'core.Currency',
+        on_delete=models.CASCADE,
+        related_name='currency_country',
+        verbose_name="País"
     )
     payment_method = models.CharField(
         max_length=150,
@@ -77,3 +80,4 @@ class Customer(StandardModel):
         verbose_name = "Cliente"
         verbose_name_plural = "Clientes"
         ordering = ['name']
+        unique_together = ('name', 'establishment')
