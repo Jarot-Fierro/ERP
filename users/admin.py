@@ -12,6 +12,7 @@ class UserAdmin(BaseUserAdmin, StandardAdmin):
     list_display = ('username', 'email', 'first_name', 'last_name', 'establishment', 'is_staff')
     list_filter = ('is_staff', 'is_superuser', 'is_active', 'establishment',)
     search_fields = ('username', 'email', 'first_name', 'last_name', 'establishment__name')
+    autocomplete_fields = ('employee',)
 
     actions = ['reset_password']
 
@@ -33,6 +34,7 @@ class UserAdmin(BaseUserAdmin, StandardAdmin):
                 'email',
                 'establishment',
                 'role',
+                'employee',
                 'avatar',
             )
         }),

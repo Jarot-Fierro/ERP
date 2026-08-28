@@ -36,6 +36,23 @@ class PurchasesOrder(StandardModelEstablishment):
         verbose_name='Proveedor',
         related_name='supplier_order'
     )
+    department = models.ForeignKey(
+        'organization.Department',
+        on_delete=models.CASCADE,
+        null=True,
+        blank=True,
+        verbose_name='Departamento',
+        related_name='purchases_department_order'
+    )
+    inventory = models.ForeignKey(
+        'inventory.LocationInventory',
+        on_delete=models.CASCADE,
+        null=True,
+        blank=True,
+        verbose_name='Bodega',
+        related_name='purchases_inventory_order'
+    )
+
     issue_date = models.DateField(
         auto_now_add=True,
         verbose_name='Fecha de Emisión'

@@ -1,47 +1,7 @@
 from django.contrib import admin
 
-from core.models import Establishment, Unit, Country, Currency
+from core.models import Unit, Country, Currency
 from core.standard.admin import StandardAdmin
-
-
-@admin.register(Establishment)
-class EstablishmentAdmin(StandardAdmin):
-    list_display = (
-        'id',
-        'name',
-        'run',
-        'alias',
-        'address',
-        'email',
-        'logo',
-        'is_active',
-        'created_at',
-        'updated_at',
-        'created_by',
-    )
-
-    search_fields = (
-        'id',
-        'name',
-        'run',
-        'alias',
-        'address',
-        'email'
-    )
-
-    list_filter = (
-        'is_active',
-        'created_at',
-        'updated_at',
-    )
-
-    list_display_links = (
-        'name',
-    )
-
-    ordering = (
-        'name',
-    )
 
 
 @admin.register(Unit)

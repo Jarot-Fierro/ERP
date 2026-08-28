@@ -76,14 +76,15 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'simple_history',
     'import_export',
-    'core',
-    'users',
-    'products',
-    'suppliers',
+    'core.apps.CoreConfig',
+    'users.apps.UsersConfig',
+    'products.apps.ProductsConfig',
+    'suppliers.apps.SuppliersConfig',
     'customers.apps.CustomersConfig',
     'inventory.apps.InventoryConfig',
     'accounting.apps.AccountingConfig',
-    'purchases.apps.PurchasesConfig'
+    'purchases.apps.PurchasesConfig',
+    'organization.apps.OrganizationConfig'
 ]
 
 MIDDLEWARE = [

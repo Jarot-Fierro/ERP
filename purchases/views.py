@@ -141,7 +141,7 @@ class PurchaseOrderDetailView(StandardDetailView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         lines = self.object.lines_purchases_order.select_related(
-            'material', 'unit_material', 'currency'
+            'product', 'unit', 'currency'
         ).order_by('position', 'id')
 
         # Calculamos subtotal para cada línea y el total general

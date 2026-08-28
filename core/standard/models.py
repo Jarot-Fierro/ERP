@@ -49,7 +49,7 @@ class StandardModelEstablishment(models.Model):
     ]
     is_active = models.BooleanField(default=True, choices=STATUS_CHOICES, verbose_name='¿Esta Activo?')
 
-    establishment = models.ForeignKey('core.Establishment', on_delete=models.PROTECT, null=True, blank=True,
+    establishment = models.ForeignKey('organization.Establishment', on_delete=models.PROTECT, null=True, blank=True,
                                       related_name="%(app_label)s_%(class)s_related",
                                       verbose_name='Establecimiento')
 

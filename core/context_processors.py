@@ -1,4 +1,4 @@
-from core.models import Establishment
+from organization.models import Establishment
 
 
 def establishment_processor(request):

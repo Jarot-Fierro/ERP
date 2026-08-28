@@ -161,14 +161,14 @@
                                     <tr>
                                         <td class="text-center fw-bold">{{ item.line.position|default:forloop.counter }}</td>
                                         <td>
-                                            <div class="fw-bold">{{ item.line.material.name }}</div>
-                                            {% if item.line.material.code %}
-                                                <small class="text-muted">Cód: {{ item.line.material.code }}</small>
+                                            <div class="fw-bold">{{ item.line.product.name }}</div>
+                                            {% if item.line.product.code %}
+                                                <small class="text-muted">Cód: {{ item.line.product.code }}</small>
                                             {% endif %}
                                         </td>
                                         <td class="text-center">{{ item.line.quantity }}</td>
                                         <td class="text-center">
-                                            <span class="badge bg-secondary">{{ item.line.unit_material }}</span>
+                                            <span class="badge bg-secondary">{{ item.line.unit }}</span>
                                         </td>
                                         <td class="text-end">${{ item.line.price }}</td>
                                         <td class="text-center">{{ item.line.currency }}</td>

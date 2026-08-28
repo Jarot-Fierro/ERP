@@ -40,13 +40,11 @@ class OrderStatusAdmin(StandardAdmin):
 class PurchasesOrderAdmin(StandardAdmin):
     list_display = (
         'id',
+        'code',
         'supplier',
         'issue_date',
         'estimated_delivery_date',
-        'is_active',
         'created_at',
-        'updated_at',
-        'created_by',
     )
 
     search_fields = (
@@ -66,6 +64,7 @@ class PurchasesOrderAdmin(StandardAdmin):
     list_display_links = (
         'id',
         'supplier',
+        'code',
     )
 
     ordering = (

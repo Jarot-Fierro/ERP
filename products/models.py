@@ -20,7 +20,7 @@ class ProductType(StandardModel):
 
     class Meta:
         verbose_name = 'Tipo de Producto'
-        verbose_name_plural = 'Tipos de Producoes'
+        verbose_name_plural = 'Tipos de Productos'
 
 
 class Product(StandardModel):

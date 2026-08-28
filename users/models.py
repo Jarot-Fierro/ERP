@@ -18,15 +18,23 @@ class User(AbstractUser):
         'users.Role',
         on_delete=models.CASCADE,
         verbose_name='Rol',
-        related_name='role',
+        related_name='user_role',
         null=True,
         blank=True,
     )
     establishment = models.ForeignKey(
-        'core.Establishment',
+        'organization.Establishment',
         on_delete=models.CASCADE,
         verbose_name='Establecimiento',
-        related_name='establishment',
+        related_name='user_establishment',
+        null=True,
+        blank=True,
+    )
+    employee = models.ForeignKey(
+        'organization.Employee',
+        on_delete=models.CASCADE,
+        verbose_name='Funcionario',
+        related_name='user_employee',
         null=True,
         blank=True,
     )

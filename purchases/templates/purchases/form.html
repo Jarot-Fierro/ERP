@@ -35,7 +35,7 @@
                             {% endif %}
 
                             <div class="row g-3">
-                                <div class="col-md-6">
+                                <div class="col-md-3">
                                     <label class="form-label fw-bold" for="id_{{ form.supplier.name }}">
                                         {{ form.supplier.label }}
                                     </label>
@@ -60,8 +60,29 @@
                                         {% endfor %}
                                     {% endif %}
                                 </div>
-
-                                <div class="col-md-6">
+                                <div class="col-md-3">
+                                    <label class="form-label fw-bold" for="id_{{ form.department.name }}">
+                                        {{ form.department.label }}
+                                    </label>
+                                    {{ form.department }}
+                                    {% if form.department.errors %}
+                                        {% for error in form.department.errors %}
+                                            <div class="invalid-feedback d-block text-danger">{{ error }}</div>
+                                        {% endfor %}
+                                    {% endif %}
+                                </div>
+                                <div class="col-md-3">
+                                    <label class="form-label fw-bold" for="id_{{ form.inventory.name }}">
+                                        {{ form.inventory.label }}
+                                    </label>
+                                    {{ form.inventory }}
+                                    {% if form.inventory.errors %}
+                                        {% for error in form.inventory.errors %}
+                                            <div class="invalid-feedback d-block text-danger">{{ error }}</div>
+                                        {% endfor %}
+                                    {% endif %}
+                                </div>
+                                <div class="col-md-3">
                                     <label class="form-label fw-bold" for="id_{{ form.estimated_delivery_date.name }}">
                                         {{ form.estimated_delivery_date.label }}
                                     </label>
@@ -110,12 +131,19 @@
 
                     <!-- Card de Líneas de la Orden (FormSet) -->
                     <div class="card card-outline card-info mb-4">
-                        <div class="card-header d-flex justify-content-between align-items-center">
+                        <div class="card-header d-flex align-items-center">
                             <h5 class="card-title mb-0">
-                                <i class="fas fa-list"></i> Líneas de la Orden
+                                <i class="bi bi-list me-1"></i>
+                                Líneas de la Orden
                             </h5>
-                            <button type="button" class="btn btn-success btn-sm" id="add-line-btn">
-                                <i class="fas fa-plus"></i> Agregar línea
+
+                            <button
+                                    type="button"
+                                    class="btn btn-success btn-sm ms-auto d-inline-flex align-items-center gap-1"
+                                    id="add-line-btn"
+                            >
+                                <i class="bi bi-plus-circle"></i>
+                                <span class="pb-1">Agregar línea</span>
                             </button>
                         </div>
                         <div class="card-body">
@@ -131,7 +159,7 @@
                                        id="lines-table">
                                     <thead class="table-light">
                                     <tr>
-                                        <th style="width: 25%;">Material</th>
+                                        <th style="width: 25%;">Producto</th>
                                         <th style="width: 15%;">Cantidad</th>
                                         <th style="width: 20%;">Unidad de Medida</th>
                                         <th style="width: 15%;">Precio</th>
@@ -191,7 +219,7 @@
                                                 {% endif %}
                                                 <button type="button" class="btn btn-danger btn-sm delete-row-btn"
                                                         title="Eliminar línea">
-                                                    <i class="fas fa-trash-alt"></i>
+                                                    <i class="bi bi-trash"></i>
                                                 </button>
                                             </td>
                                         </tr>
@@ -228,7 +256,7 @@
                                         {% endif %}
                                         <button type="button" class="btn btn-danger btn-sm delete-row-btn"
                                                 title="Eliminar línea">
-                                            <i class="fas fa-trash-alt"></i>
+                                            <i class="bi bi-trash"></i>
                                         </button>
                                     </td>
                                 </tr>
@@ -251,21 +279,187 @@
 {% block scripts %}
     <script>
         document.addEventListener('DOMContentLoaded', function () {
+            const form = document.querySelector('form.needs-validation') || document.querySelector('form');
             const addButton = document.getElementById('add-line-btn');
             const container = document.getElementById('formset-container');
             const totalFormsInput = document.getElementById('id_{{ formset.prefix }}-TOTAL_FORMS');
             const emptyFormRow = document.getElementById('empty-form');
+            const prefix = '{{ formset.prefix }}';
+
+            // Inicializar TomSelect en los elementos que no pertenezcan al template de clonación
+            document.querySelectorAll('.tom-select:not(#empty-form-wrapper .tom-select)').forEach(function (element) {
+                if (!element.tomselect) {
+                    new TomSelect(element, {
+                        create: false,
+                        allowEmptyOption: true,
+                        dropdownParent: 'body'
+                    });
+                }
+            });
+
+            // Función para validar un input individualmente por su ID
+            function validateInputById(id, fieldLabel) {
+                const element = document.getElementById(id);
+                if (!element) {
+                    return true;
+                }
+
+                // Si la fila está oculta o marcada para eliminación, no se valida
+                const row = element.closest('.formset-row');
+                if (row) {
+                    if (row.style.display === 'none') {
+                        return true;
+                    }
+                    const deleteCheckbox = row.querySelector('input[type="checkbox"][name$="-DELETE"]');
+                    if (deleteCheckbox && deleteCheckbox.checked) {
+                        return true;
+                    }
+                }
+
+                const value = element.value !== undefined && element.value !== null ? element.value.toString().trim() : '';
+                let feedback = element.parentElement.querySelector(`.invalid-feedback-js-${id}`);
+
+                if (value === '') {
+                    element.classList.remove('is-valid');
+                    element.classList.add('is-invalid');
+
+                    if (!feedback) {
+                        feedback = document.createElement('div');
+                        feedback.className = `invalid-feedback invalid-feedback-js-${id} d-block text-danger small`;
+                        element.parentElement.appendChild(feedback);
+                    }
+                    feedback.textContent = `El campo ${fieldLabel} es obligatorio.`;
+                    feedback.style.display = 'block';
+
+                    if (element.tomselect && element.tomselect.control) {
+                        element.tomselect.control.classList.add('is-invalid');
+                        element.tomselect.control.classList.remove('is-valid');
+                    }
+                    return false;
+                } else {
+                    element.classList.remove('is-invalid');
+                    element.classList.add('is-valid');
+
+                    if (feedback) {
+                        feedback.textContent = '';
+                        feedback.style.display = 'none';
+                    }
+
+                    if (element.tomselect && element.tomselect.control) {
+                        element.tomselect.control.classList.remove('is-invalid');
+                        element.tomselect.control.classList.add('is-valid');
+                    }
+                    return true;
+                }
+            }
+
+            // Asociar eventos de validación individual por ID para los campos de una fila
+            function attachRowValidationEvents(index) {
+                const fields = [
+                    {id: `id_${prefix}-${index}-product`, label: 'Producto'},
+                    {id: `id_${prefix}-${index}-quantity`, label: 'Cantidad'},
+                    {id: `id_${prefix}-${index}-unit`, label: 'Unidad de Medida'},
+                    {id: `id_${prefix}-${index}-price`, label: 'Precio'},
+                    {id: `id_${prefix}-${index}-currency`, label: 'Moneda'}
+                ];
+
+                fields.forEach(field => {
+                    const el = document.getElementById(field.id);
+                    if (el) {
+                        ['input', 'change', 'blur'].forEach(evt => {
+                            el.addEventListener(evt, function () {
+                                validateInputById(field.id, field.label);
+                            });
+                        });
+                        if (el.tomselect) {
+                            el.tomselect.on('change', function () {
+                                validateInputById(field.id, field.label);
+                            });
+                        }
+                    }
+                });
+            }
+
+            // Validar todos los campos de todas las líneas individualmente por ID
+            function validateAllLines() {
+                let isValid = true;
+                const totalForms = totalFormsInput ? parseInt(totalFormsInput.value, 10) : 0;
+                let firstInvalidElement = null;
+
+                for (let i = 0; i < totalForms; i++) {
+                    const productId = `id_${prefix}-${i}-product`;
+                    const quantityId = `id_${prefix}-${i}-quantity`;
+                    const unitId = `id_${prefix}-${i}-unit`;
+                    const priceId = `id_${prefix}-${i}-price`;
+                    const currencyId = `id_${prefix}-${i}-currency`;
+
+                    const isProductValid = validateInputById(productId, 'Producto');
+                    const isQuantityValid = validateInputById(quantityId, 'Cantidad');
+                    const isUnitValid = validateInputById(unitId, 'Unidad de Medida');
+                    const isPriceValid = validateInputById(priceId, 'Precio');
+                    const isCurrencyValid = validateInputById(currencyId, 'Moneda');
+
+                    if (!isProductValid && !firstInvalidElement) {
+                        firstInvalidElement = document.getElementById(productId);
+                    }
+                    if (!isQuantityValid && !firstInvalidElement) {
+                        firstInvalidElement = document.getElementById(quantityId);
+                    }
+                    if (!isUnitValid && !firstInvalidElement) {
+                        firstInvalidElement = document.getElementById(unitId);
+                    }
+                    if (!isPriceValid && !firstInvalidElement) {
+                        firstInvalidElement = document.getElementById(priceId);
+                    }
+                    if (!isCurrencyValid && !firstInvalidElement) {
+                        firstInvalidElement = document.getElementById(currencyId);
+                    }
+
+                    if (!isProductValid || !isQuantityValid || !isUnitValid || !isPriceValid || !isCurrencyValid) {
+                        isValid = false;
+                    }
+                }
+
+                if (!isValid && firstInvalidElement) {
+                    firstInvalidElement.focus();
+                }
+
+                return isValid;
+            }
+
+            // Asociar validación inicial para las filas existentes
+            const initialTotalForms = totalFormsInput ? parseInt(totalFormsInput.value, 10) : 0;
+            for (let i = 0; i < initialTotalForms; i++) {
+                attachRowValidationEvents(i);
+            }
 
             if (addButton && container && totalFormsInput && emptyFormRow) {
                 addButton.addEventListener('click', function (e) {
                     e.preventDefault();
-                    const formIdx = parseInt(totalFormsInput.value);
+                    const formIdx = parseInt(totalFormsInput.value, 10);
                     const newRowHtml = emptyFormRow.outerHTML
                         .replace(/__prefix__/g, formIdx)
                         .replace('id="empty-form"', '');
 
                     container.insertAdjacentHTML('beforeend', newRowHtml);
                     totalFormsInput.value = formIdx + 1;
+
+                    // Inicializar TomSelect en la nueva fila si aplica
+                    const newRow = container.lastElementChild;
+                    if (newRow) {
+                        newRow.querySelectorAll('.tom-select').forEach(function (element) {
+                            if (!element.tomselect) {
+                                new TomSelect(element, {
+                                    create: false,
+                                    allowEmptyOption: true,
+                                    dropdownParent: 'body'
+                                });
+                            }
+                        });
+                    }
+
+                    // Asociar validaciones para la nueva fila
+                    attachRowValidationEvents(formIdx);
                 });
             }
 
@@ -291,6 +485,17 @@
                     }
                 }
             });
+
+            // Interceptar submit para prevenir envío si alguno de los campos requeridos está vacío
+            if (form) {
+                form.addEventListener('submit', function (event) {
+                    const linesAreValid = validateAllLines();
+                    if (!linesAreValid) {
+                        event.preventDefault();
+                        event.stopPropagation();
+                    }
+                });
+            }
         });
     </script>
 
