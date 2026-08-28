@@ -45,7 +45,7 @@ class Command(BaseCommand):
                 / 'core'
                 / 'static'
                 / 'core'
-                / 'media'
+                / 'img'
         )
 
         for avatar_data in AVATARS:
