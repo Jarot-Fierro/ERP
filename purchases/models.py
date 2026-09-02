@@ -134,12 +134,12 @@ class LinesPurchasesOrder(StandardModelEstablishment):
         return f"{str(self.id)}"
 
     class Meta:
-        verbose_name = 'Liena de orden de compra'
+        verbose_name = 'Linea de orden de compra'
         verbose_name_plural = 'Líneas de ordenes de compra'
         ordering = ['id']
 
 
-class GoodsReceipStatus(StandardModelEstablishment):
+class GoodsReceiptStatus(StandardModelEstablishment):
     name = models.CharField(
         max_length=200,
         verbose_name='Nombre'
@@ -156,3 +156,86 @@ class GoodsReceipStatus(StandardModelEstablishment):
         verbose_name = 'Estado de recepción de Mercancía'
         verbose_name_plural = 'Estados de recepción de Mercancías'
         ordering = ['name']
+
+
+class GoodsReceipt(StandardModelEstablishment):
+    purchases_order = models.ForeignKey(
+        PurchasesOrder,
+        on_delete=models.CASCADE,
+        verbose_name='Orden de compra',
+        related_name='goods_receipts_order'
+    )
+    receipt_date = models.DateField(
+        verbose_name='Fecha de Recepción'
+    )
+    supplier_delivery_note = models.CharField(
+        max_length=255,
+        verbose_name='Nota de entrega del proveedor',
+        blank=True,
+        null=True
+    )
+    status = models.ForeignKey(
+        GoodsReceiptStatus,
+        on_delete=models.CASCADE,
+        verbose_name='Estado de recepción',
+        related_name='goods_receipts_status'
+    )
+
+    def __str__(self):
+        return self.name
+
+    class Meta:
+        verbose_name = 'Estado de recepción de Mercancía'
+        verbose_name_plural = 'Estados de recepción de Mercancías'
+        ordering = ['name']
+
+
+class LinesGoodsReceipt(StandardModelEstablishment):
+    goods_receipt = models.ForeignKey(
+        GoodsReceipt,
+        on_delete=models.CASCADE,
+        verbose_name='Orden de compra',
+        related_name='lines_goods_receipt'
+    )
+    purchase_order_line = models.ForeignKey(
+        LinesPurchasesOrder,
+        on_delete=models.CASCADE,
+        verbose_name='Línea de orden de compra',
+        related_name='lines_goods_receipt_purchase_order_line'
+    )
+    product = models.ForeignKey(
+        'products.Product',
+        on_delete=models.CASCADE,
+        verbose_name='Material',
+        related_name='lines_goods_receipt_product'
+    )
+    received_quantity = models.PositiveIntegerField(
+        default=0,
+        verbose_name='Cantidad Recibida',
+    )
+    unit = models.ForeignKey(
+        'core.Unit',
+        on_delete=models.CASCADE,
+        verbose_name='Tipo de Unidad',
+        related_name='lines_goods_receipt_unit'
+    )
+    location = models.ForeignKey(
+        'inventory.LocationInventory',
+        on_delete=models.CASCADE,
+        verbose_name='Bodega',
+        related_name='lines_goods_receipt_location'
+    )
+    inventory_movment_ref = models.CharField(
+        max_length=255,
+        verbose_name='Referencia de Movimiento de Inventario',
+        blank=True,
+        null=True
+    )
+
+    def __str__(self):
+        return f"{str(self.id)}"
+
+    class Meta:
+        verbose_name = 'Linea Recepcionada'
+        verbose_name_plural = 'Lineas Recepcionadas'
+        ordering = ['id']
