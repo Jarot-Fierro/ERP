@@ -182,12 +182,12 @@ class GoodsReceipt(StandardModelEstablishment):
     )
 
     def __str__(self):
-        return self.name
+        return f"{str(self.id)}"
 
     class Meta:
-        verbose_name = 'Estado de recepción de Mercancía'
-        verbose_name_plural = 'Estados de recepción de Mercancías'
-        ordering = ['name']
+        verbose_name = 'Recepción de Mercancía'
+        verbose_name_plural = 'Recepciones de Mercancías'
+        ordering = ['id']
 
 
 class LinesGoodsReceipt(StandardModelEstablishment):
